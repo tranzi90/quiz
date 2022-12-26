@@ -1,7 +1,16 @@
 <script setup>
 import QuestionsSet from "@/components/QuestionsSet.vue";
 import QuizResult from "@/components/QuizResult.vue";
+import { ref } from "vue";
 
+let questionsAnswered = ref(0);
+let totalCorrect = ref(0);
+
+const questionAnswered = (is_correct) => {
+  if (is_correct) totalCorrect.value++;
+
+  questionsAnswered.value++;
+};
 const questions = [
   {
     q: "What is 2 + 2?",
@@ -81,8 +90,13 @@ const results = [
 
 <template>
   <div class="ctr">
-    <QuestionsSet :questions="questions" />
-    <QuizResult />
+    <QuestionsSet
+      v-if="questionsAnswered < questions.length"
+      :questions="questions"
+      :questions-answered="questionsAnswered"
+      @question-answered="questionAnswered"
+    />
+    <QuizResult v-else :results="results" :total-correct="totalCorrect" />
     <button type="button" class="reset-btn">Reset</button>
   </div>
 </template>

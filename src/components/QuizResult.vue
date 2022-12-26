@@ -5,6 +5,20 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { computed } from "vue";
+
+const props = defineProps({
+  results: Array,
+  totalCorrect: Number,
+});
+
+const resultIndex = computed(() => {
+  props.results.forEach((el, i) => {
+    if (props.totalCorrect < 3) return i;
+  });
+  return props.results.length - 1;
+});
+</script>
 
 <style scoped></style>
