@@ -1,7 +1,7 @@
 <template>
   <div class="result">
-    <div class="title">You got sample result 1!</div>
-    <div class="desc">Enter a short description here about the result.</div>
+    <div class="title">{{ results[resultIndex].title }}</div>
+    <div class="desc">{{ results[resultIndex].desc }}</div>
   </div>
 </template>
 
@@ -14,10 +14,12 @@ const props = defineProps({
 });
 
 const resultIndex = computed(() => {
+  let ind = 0;
   props.results.forEach((el, i) => {
     if (props.totalCorrect < 3) return i;
+    else ind = i;
   });
-  return props.results.length - 1;
+  return ind;
 });
 </script>
 

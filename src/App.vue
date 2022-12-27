@@ -11,6 +11,12 @@ const questionAnswered = (is_correct) => {
 
   questionsAnswered.value++;
 };
+
+const reset = () => {
+  questionsAnswered.value = 0;
+  totalCorrect.value = 0;
+};
+
 const questions = [
   {
     q: "What is 2 + 2?",
@@ -90,14 +96,23 @@ const results = [
 
 <template>
   <div class="ctr">
-    <QuestionsSet
-      v-if="questionsAnswered < questions.length"
-      :questions="questions"
-      :questions-answered="questionsAnswered"
-      @question-answered="questionAnswered"
-    />
-    <QuizResult v-else :results="results" :total-correct="totalCorrect" />
-    <button type="button" class="reset-btn">Reset</button>
+    <transition name="fade" mode="out-in">
+      <QuestionsSet
+        v-if="questionsAnswered < questions.length"
+        :questions="questions"
+        :questions-answered="questionsAnswered"
+        @question-answered="questionAnswered"
+      />
+      <QuizResult v-else :results="results" :total-correct="totalCorrect" />
+    </transition>
+    <button
+      type="button"
+      class="reset-btn"
+      @click.prevent="reset"
+      v-if="questionsAnswered === questions.length"
+    >
+      Reset
+    </button>
   </div>
 </template>
 
